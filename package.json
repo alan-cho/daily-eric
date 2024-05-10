@@ -1,0 +1,20 @@
+{
+  "name": "daily-eric",
+  "version": "1.0.0",
+  "description": "Displays the most recent video from the YouTube channel, [Esselle and Eric](https://www.youtube.com/@esselleanderic).",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^20.12.11",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5"
+  }
+}
