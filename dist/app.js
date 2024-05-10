@@ -7,16 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-require("dotenv").config();
-const axios = require("axios").default;
-// Test if the API works
-// axios
-//   .get(
-//     `https://www.googleapis.com/youtube/v3/videos?id=Pz1Hl7NHlOU&key=${process.env.API_KEY}`
-//   )
-//   .then(function (response) {
-//     console.log(response.data);
-//   });
+import "dotenv/config";
+import axios from "axios";
 function getChannelId(channelName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -37,27 +29,36 @@ function getChannelId(channelName) {
         }
     });
 }
-function getRecentVideo(channelId) {
+function getRecentVideoId(channelId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield axios.get("https://www.googleapis.com/youtube/v3/search", {
                 params: {
                     part: "snippet",
                     channelId: channelId,
-                    key: process.env.API_KEY,
                     order: "date",
                     type: "video",
                     maxResults: 1,
+                    key: process.env.API_KEY,
                 },
             });
             const videoId = response.data.items[0].id.videoId;
-            console.log(videoId);
+            return videoId;
         }
         catch (e) {
-            console.log(e);
+            console.log("Error Occurred: ", e);
             return null;
         }
     });
 }
-getChannelId("esselleanderic").then((channelId) => getRecentVideo(channelId));
+function buildVideoPlayer() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const channelId = yield getChannelId("esselleanderic");
+        const videoId = yield getRecentVideoId(channelId);
+        const videoPlayer = document.createElement("iframe");
+        videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+        document.getElementById("player").appendChild(videoPlayer);
+    });
+}
+document.addEventListener("DOMContentLoaded", buildVideoPlayer);
 //# sourceMappingURL=app.js.map

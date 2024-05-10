@@ -1,5 +1,5 @@
-require("dotenv").config();
-const axios = require("axios").default;
+import "dotenv/config";
+import axios from "axios";
 
 async function getChannelId(channelName: string): Promise<string | null> {
   try {
@@ -22,7 +22,7 @@ async function getChannelId(channelName: string): Promise<string | null> {
   }
 }
 
-async function getRecentVideo(channelId: string): Promise<string | null> {
+async function getRecentVideoId(channelId: string): Promise<string | null> {
   try {
     const response = await axios.get(
       "https://www.googleapis.com/youtube/v3/search",
@@ -45,4 +45,13 @@ async function getRecentVideo(channelId: string): Promise<string | null> {
   }
 }
 
-getChannelId("esselleanderic").then((channelId) => getRecentVideo(channelId));
+// async function buildVideoPlayer() {
+//   const channelId = await getChannelId("esselleanderic");
+//   const videoId = await getRecentVideoId(channelId);
+
+//   const videoPlayer = document.createElement("iframe");
+//   videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+//   document.getElementById("player").appendChild(videoPlayer);
+// }
+
+// document.addEventListener("DOMContentLoaded", buildVideoPlayer);
