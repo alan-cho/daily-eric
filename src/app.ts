@@ -1,57 +1,27 @@
-import "dotenv/config";
-import axios from "axios";
+window.addEventListener("DOMContentLoaded", () => {
+  const videoContainer = document.getElementById("player");
 
-async function getChannelId(channelName: string): Promise<string | null> {
-  try {
-    const response = await axios.get(
-      "https://www.googleapis.com/youtube/v3/search",
-      {
-        params: {
-          part: "snippet",
-          q: channelName,
-          type: "channel",
-          key: process.env.API_KEY,
-        },
+  fetch("http://localhost:3000/getVideo")
+    .then((response) => {
+      if (response.ok) {
+        console.log(response);
+        return response.json();
+      } else {
+        throw new Error("Failed to get latest video");
       }
-    );
-    const channelId = response.data.items[0].id.channelId;
-    return channelId;
-  } catch (e) {
-    console.log("Error Occurred: ", e);
-    return null;
-  }
-}
-
-async function getRecentVideoId(channelId: string): Promise<string | null> {
-  try {
-    const response = await axios.get(
-      "https://www.googleapis.com/youtube/v3/search",
-      {
-        params: {
-          part: "snippet",
-          channelId: channelId,
-          order: "date",
-          type: "video",
-          maxResults: 1,
-          key: process.env.API_KEY,
-        },
-      }
-    );
-    const videoId = response.data.items[0].id.videoId;
-    return videoId;
-  } catch (e) {
-    console.log("Error Occurred: ", e);
-    return null;
-  }
-}
-
-// async function buildVideoPlayer() {
-//   const channelId = await getChannelId("esselleanderic");
-//   const videoId = await getRecentVideoId(channelId);
-
-//   const videoPlayer = document.createElement("iframe");
-//   videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
-//   document.getElementById("player").appendChild(videoPlayer);
-// }
-
-// document.addEventListener("DOMContentLoaded", buildVideoPlayer);
+    })
+    .then((videoData) => {
+      videoContainer.innerHTML = `
+        <h3>${videoData.snippet.title}</h3>
+        <p>${videoData.snippet.description}</p>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/${videoData.id.videoId}"
+          title="${videoData.snippet.title}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>`;
+    });
+});

@@ -4,18 +4,21 @@
   "description": "Displays the most recent video from the YouTube channel, [Esselle and Eric](https://www.youtube.com/@esselleanderic).",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js"
+    "compile": "tsc"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.21",
     "@types/node": "^20.12.11",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "axios": "^1.6.8",
-    "dotenv": "^16.4.5"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   },
   "type": "module"
 }
